@@ -48,4 +48,21 @@ public class CountryController {
         System.out.println("The Total Population Is " + sum);
         return new ResponseEntity<>(HttpStatus.OK);
     }
+
+    @GetMapping(value = "/population/min", produces = "application/json")
+    public ResponseEntity<Country> min () {
+        List<Country> countries = new ArrayList<>();
+        countryRepository.findAll().iterator().forEachRemaining(countries::add);
+        Country answer = countries.stream().min(Comparator.comparing(Country::getPopulation)).get();
+        return new ResponseEntity<>(answer, HttpStatus.OK);
+    }
+
+    @GetMapping(value = "/population/max", produces = "application/json")
+    public ResponseEntity<Country> max () {
+        List<Country> countries = new ArrayList<>();
+        countryRepository.findAll().iterator().forEachRemaining(countries::add);
+        Country answer = countries.stream().max(Comparator.comparing(Country::getPopulation)).get();
+        return new ResponseEntity<>(answer, HttpStatus.OK);
+    }
+
 }
